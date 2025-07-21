@@ -1,4 +1,4 @@
-package com.belezapura.beleza_pura;
+package beleza_pura.com.example.beleza_pura;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
