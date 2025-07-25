@@ -12,6 +12,7 @@ import beleza_pura.com.example.beleza_pura.domain.models.Agendamento;
 @RestController
 @RequestMapping("/api/agendamentos")
 public class AgendamentoController {
+
     private final AgendamentoService service;
 
     public AgendamentoController(AgendamentoService service) {
@@ -19,7 +20,7 @@ public class AgendamentoController {
     }
 
     @PostMapping
-    public Agendamento criar(@RequestBody NovoAgendamentoDTO dto) {
+    public Agendamento criarAgendamento(@RequestBody NovoAgendamentoDTO dto) {
         return service.criarAgendamento(dto);
     }
 }
