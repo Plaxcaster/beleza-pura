@@ -1,7 +1,5 @@
 package beleza_pura.com.example.beleza_pura.domain.models;
 
-
-
 import java.util.Set;
 
 import lombok.Data;
