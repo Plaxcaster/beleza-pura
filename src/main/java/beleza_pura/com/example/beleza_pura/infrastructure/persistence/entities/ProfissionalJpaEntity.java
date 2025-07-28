@@ -32,12 +32,3 @@ public class ProfissionalJpaEntity {
     @JoinColumn(name = "estabelecimento_id", nullable = false)
     private EstabelecimentoJpaEntity estabelecimento;
 }
-
-@Embeddable
-@Getter
-@Setter
-class DisponibilidadeEmbeddable {
-    private String diasTrabalho; // Ex: "SEG,QUA,SEX"
-    private String horaInicio;   // Ex: "09:00"
-    private String horaFim;      // Ex: "18:00"
-}

@@ -11,7 +11,7 @@ import beleza_pura.com.example.beleza_pura.infrastructure.persistence.entities.P
 import beleza_pura.com.example.beleza_pura.infrastructure.persistence.entities.ServicoJpaEntity;
 
 @Mapper(componentModel = "spring", 
-        uses = {ClienteMapper.class, ProfissionalMapper.class, ServicoMapper.class})
+        uses = {ClienteMapper.class, ProfissionalMapper.class, ServicoMapper.class, DisponibilidadeMapper.class})
 public interface AgendamentoMapper {
 
     AgendamentoMapper INSTANCE = Mappers.getMapper(AgendamentoMapper.class);

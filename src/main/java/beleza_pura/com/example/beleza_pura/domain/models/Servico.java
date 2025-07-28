@@ -22,4 +22,8 @@ public class Servico {
     public boolean possuiMesmoEstabelecimento(Estabelecimento outroEstabelecimento) {
         return estabelecimento != null && estabelecimento.equals(outroEstabelecimento);
     }
+
+    public long getDuracaoMinutos() {
+        throw new UnsupportedOperationException("Not supported yet."); //TODO
+    }
 }
