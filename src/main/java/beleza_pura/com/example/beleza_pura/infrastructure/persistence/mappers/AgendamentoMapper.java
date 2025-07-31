@@ -3,7 +3,6 @@ package beleza_pura.com.example.beleza_pura.infrastructure.persistence.mappers;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.factory.Mappers;
-
 import beleza_pura.com.example.beleza_pura.domain.models.Agendamento;
 import beleza_pura.com.example.beleza_pura.infrastructure.persistence.entities.AgendamentoJpaEntity;
 import beleza_pura.com.example.beleza_pura.infrastructure.persistence.entities.ClienteJpaEntity;

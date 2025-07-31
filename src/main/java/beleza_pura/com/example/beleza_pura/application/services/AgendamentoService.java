@@ -10,10 +10,15 @@ import beleza_pura.com.example.beleza_pura.domain.models.StatusAgendamento;
 import beleza_pura.com.example.beleza_pura.domain.repositories.AgendamentoRepository;
 import beleza_pura.com.example.beleza_pura.domain.repositories.ProfissionalRepository;
 import beleza_pura.com.example.beleza_pura.domain.repositories.ServicoRepository;
+import jakarta.transaction.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.Optional;
 
+import org.springframework.stereotype.Service;
+
+@Service
+@Transactional
 public class AgendamentoService {
     private final AgendamentoRepository agendamentoRepo;
     private final ProfissionalRepository profissionalRepo;
