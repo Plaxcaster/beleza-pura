@@ -1,16 +1,9 @@
 package beleza_pura.com.example.beleza_pura.domain.repositories;
 
+import beleza_pura.com.example.beleza_pura.domain.models.Servico;
 import java.util.Optional;
 
-import beleza_pura.com.example.beleza_pura.domain.models.Servico;
-import org.springframework.stereotype.Repository;
-
-@Repository
-public class ServicoRepository {
-
-    public Optional<Servico> buscarPorId(Long servicoId) {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-
+public interface ServicoRepository {
+    Servico save(Servico servico);
+    Optional<Servico> findById(Long id);
 }

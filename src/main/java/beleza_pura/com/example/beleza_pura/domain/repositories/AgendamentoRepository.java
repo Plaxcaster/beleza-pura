@@ -1,4 +1,3 @@
-// src/main/java/beleza_pura/com/example/beleza_pura/domain/repositories/AgendamentoRepository.java
 package beleza_pura.com.example.beleza_pura.domain.repositories;
 
 import beleza_pura.com.example.beleza_pura.domain.models.Agendamento;
@@ -10,7 +9,7 @@ import java.util.Optional;
 
 @Repository
 public interface AgendamentoRepository {
-    Agendamento salvar(Agendamento agendamento);
-    Optional<Agendamento> buscarPorId(Long id);
-    List<Agendamento> buscarPorProfissional(Long profissionalId, LocalDateTime inicio, LocalDateTime fim);
+    Agendamento save(Agendamento agendamento);
+    Optional<Agendamento> findById(Long id);
+    List<Agendamento> findOverlappingAgendamentos(Long profissionalId, LocalDateTime inicio, LocalDateTime fim);
 }

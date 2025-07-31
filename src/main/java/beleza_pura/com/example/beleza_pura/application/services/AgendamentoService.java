@@ -33,31 +33,28 @@ public class AgendamentoService {
     }
 
     public Agendamento criarAgendamento(NovoAgendamentoDTO dto) {
-        Optional<Profissional> profissionalOpt = profissionalRepo.buscarPorId(dto.profissionalId());
-        Profissional profissional = profissionalOpt.orElseThrow(() -> 
-            new IllegalArgumentException("Profissional não encontrado"));
-        
-        Optional<Servico> servicoOpt = servicoRepo.buscarPorId(dto.servicoId());
-        Servico servico = servicoOpt.orElseThrow(() -> 
-            new IllegalArgumentException("Serviço não encontrado"));
+        Profissional profissional = profissionalRepo.findById(dto.profissionalId())
+                .orElseThrow(() -> new IllegalArgumentException("Profissional não encontrado"));
 
-        // Check availability
+        Servico servico = servicoRepo.findById(dto.servicoId())
+                .orElseThrow(() -> new IllegalArgumentException("Serviço não encontrado"));
+
         LocalDateTime fim = dto.dataHora().plusMinutes(servico.getDuracaoMinutos());
         boolean disponivel = agendamentoRepo
-            .buscarPorProfissional(dto.profissionalId(), dto.dataHora(), fim)
-            .isEmpty();
-        
+                .findOverlappingAgendamentos(dto.profissionalId(), dto.dataHora(), fim)
+                .isEmpty();
+
         if (!disponivel) {
             throw new IllegalStateException("Horário indisponível");
         }
 
         Agendamento agendamento = new Agendamento();
-        agendamento.setCliente(new Cliente(dto.clienteId(), null, null, null)); //TODO: Trazer informações do cliente
+        agendamento.setCliente(new Cliente(dto.clienteId(), null, null, null));
         agendamento.setProfissional(profissional);
         agendamento.setServico(servico);
         agendamento.setDataHora(dto.dataHora());
         agendamento.setStatus(StatusAgendamento.PENDENTE);
-        
-        return agendamentoRepo.salvar(agendamento);
+
+        return agendamentoRepo.save(agendamento);
     }
 }
