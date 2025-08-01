@@ -21,7 +21,7 @@ public class EstabelecimentoRepositoryImpl implements EstabelecimentoRepository 
 
     @Override
     public Estabelecimento save(Estabelecimento estabelecimento) {
-        EstabelecimentoJpaEntity jpaEntity = mapper.toJpaEntity(estabelecimento);
+        EstabelecimentoJpaEntity jpaEntity = mapper.toEntity(estabelecimento);
         EstabelecimentoJpaEntity savedEntity = jpaRepository.save(jpaEntity);
         return mapper.toDomain(savedEntity);
     }

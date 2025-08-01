@@ -1,10 +1,7 @@
 package beleza_pura.com.example.beleza_pura.domain.models;
 
-
-
-import java.util.Set;
-
 import lombok.Data;
+import java.util.Set;
 
 @Data
 public class Estabelecimento {
@@ -12,11 +9,12 @@ public class Estabelecimento {
     private String nome;
     private String endereco;
     private Set<String> fotos;
+    private HorarioFuncionamento horarioFuncionamento; // Updated type
+
+    // Relationships (not included in initial registration)
     private Set<Servico> servicos;
     private Set<Profissional> profissionais;
-    private HorarioFuncionamento horarioFuncionamento;
 
-    // Domain logic
     public boolean adicionarServico(Servico servico) {
         return servicos.add(servico);
     }
