@@ -8,7 +8,7 @@ public record NovoProfissionalDTO(
         String nome,
         Set<String> especialidades,
         Long estabelecimentoId,
-        Set<DisponibilidadeRequest> disponibilidades,
+        Set<DisponibilidadeRequest> disponibilidade,
         Double valorHora
 ) {
     public record DisponibilidadeRequest(

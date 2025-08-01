@@ -1,5 +1,7 @@
 package beleza_pura.com.example.beleza_pura.infrastructure.persistence.mappers;
 
+import beleza_pura.com.example.beleza_pura.application.dtos.NovoProfissionalDTO;
+import beleza_pura.com.example.beleza_pura.application.dtos.ProfissionalDTO;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.Named;
@@ -14,28 +16,19 @@ import java.util.Set;
 @Mapper(componentModel = "spring")
 public interface DisponibilidadeMapper {
 
-    @Mapping(target = "dia", source = "domain", qualifiedByName = "parseDiaSemana")
-    @Mapping(target = "horario.inicio", source = "domain.horaInicio")
-    @Mapping(target = "horario.fim", source = "domain.horaFim")
-    @Mapping(target = "profissional", ignore = true)
-    ProfissionalDisponibilidade toEntity(Disponibilidade domain);
-
-    @Named("parseDiaSemana")
-    default DayOfWeek parseDiaSemana(Disponibilidade domain) {
-        // Implement your logic to convert diasTrabalho to DayOfWeek
-        // This is a simple example - adjust based on your actual data format
-        return DayOfWeek.valueOf(domain.getDiasTrabalho().toUpperCase());
+    default Disponibilidade toDomain(NovoProfissionalDTO.DisponibilidadeRequest request) {
+        Disponibilidade domain = new Disponibilidade();
+        domain.setDiasTrabalho(request.diaSemana().toString());
+        domain.setHoraInicio(request.horaInicio().toString());
+        domain.setHoraFim(request.horaFim().toString());
+        return domain;
     }
 
-    default Set<ProfissionalDisponibilidade> toEntities(Disponibilidade domain) {
-        // Implement logic to convert multiple days if needed
-        Set<ProfissionalDisponibilidade> entities = new HashSet<>();
-        entities.add(toEntity(domain));
-        return entities;
+    default ProfissionalDTO.DisponibilidadeResponse toResponse(Disponibilidade domain) {
+        return new ProfissionalDTO.DisponibilidadeResponse(
+                DayOfWeek.valueOf(domain.getDiasTrabalho()),
+                LocalTime.parse(domain.getHoraInicio()),
+                LocalTime.parse(domain.getHoraFim())
+        );
     }
-
-    @Mapping(target = "diasTrabalho", source = "dia")
-    @Mapping(target = "horaInicio", source = "horario.inicio")
-    @Mapping(target = "horaFim", source = "horario.fim")
-    Disponibilidade toDomain(ProfissionalDisponibilidade entity);
 }

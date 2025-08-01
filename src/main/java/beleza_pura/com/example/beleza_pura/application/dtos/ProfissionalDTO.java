@@ -9,7 +9,7 @@ public record ProfissionalDTO(
         String nome,
         Set<String> especialidades,
         Long estabelecimentoId,
-        Set<DisponibilidadeResponse> disponibilidades,
+        Set<DisponibilidadeResponse> disponibilidade,
         Double valorHora
 ) {
     public record DisponibilidadeResponse(
