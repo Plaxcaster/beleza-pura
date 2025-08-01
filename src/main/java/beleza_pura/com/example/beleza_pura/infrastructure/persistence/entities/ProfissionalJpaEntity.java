@@ -14,19 +14,19 @@ public class ProfissionalJpaEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false)
+    @Column(nullable = false, length = 100)
     private String nome;
 
     @ElementCollection
     @CollectionTable(
-        name = "profissional_especialidades",
-        joinColumns = @JoinColumn(name = "profissional_id")
+            name = "profissional_especialidades",
+            joinColumns = @JoinColumn(name = "profissional_id")
     )
-    @Column(name = "especialidade")
+    @Column(name = "especialidade", length = 50)
     private Set<String> especialidades;
 
-    @Embedded
-    private DisponibilidadeEmbeddable disponibilidade;
+    @OneToMany(mappedBy = "profissional", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<ProfissionalDisponibilidade> disponibilidades;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "estabelecimento_id", nullable = false)

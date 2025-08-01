@@ -17,7 +17,4 @@ public class Profissional {
         return especialidades.contains(especialidade);
     }
 
-    Object getDisponibilidade() {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
 }

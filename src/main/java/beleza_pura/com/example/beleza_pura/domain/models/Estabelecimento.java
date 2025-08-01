@@ -10,7 +10,7 @@ import lombok.Data;
 public class Estabelecimento {
     private Long id;
     private String nome;
-    private Endereco endereco;
+    private String endereco;
     private Set<String> fotos;
     private Set<Servico> servicos;
     private Set<Profissional> profissionais;
