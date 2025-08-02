@@ -25,10 +25,27 @@ public class ProfissionalJpaEntity {
     @Column(name = "especialidade", length = 50)
     private Set<String> especialidades;
 
-    @OneToMany(mappedBy = "profissional", cascade = CascadeType.ALL, orphanRemoval = true)
-    private Set<ProfissionalDisponibilidade> disponibilidades;
-
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "estabelecimento_id", nullable = false)
     private EstabelecimentoJpaEntity estabelecimento;
+
+    @OneToOne(
+            mappedBy = "profissional",
+            cascade = CascadeType.ALL,
+            fetch = FetchType.EAGER,
+            optional = false
+    )
+    private DisponibilidadeJpaEntity disponibilidade;
+
+    // Helper method to ensure bidirectional relationship
+    public void setDisponibilidade(DisponibilidadeJpaEntity disponibilidade) {
+        if (disponibilidade == null) {
+            if (this.disponibilidade != null) {
+                this.disponibilidade.setProfissional(null);
+            }
+        } else {
+            disponibilidade.setProfissional(this);
+        }
+        this.disponibilidade = disponibilidade;
+    }
 }

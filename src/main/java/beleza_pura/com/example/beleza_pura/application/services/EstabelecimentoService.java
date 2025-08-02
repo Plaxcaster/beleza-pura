@@ -1,5 +1,7 @@
 package beleza_pura.com.example.beleza_pura.application.services;
 
+import jakarta.persistence.EntityNotFoundException;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import beleza_pura.com.example.beleza_pura.application.dtos.EstabelecimentoDTO;
@@ -9,12 +11,14 @@ import beleza_pura.com.example.beleza_pura.domain.models.HorarioFuncionamento;
 import beleza_pura.com.example.beleza_pura.domain.repositories.EstabelecimentoRepository;
 
 @Service
+@RequiredArgsConstructor
 public class EstabelecimentoService {
 
     private final EstabelecimentoRepository estabelecimentoRepository;
 
-    public EstabelecimentoService(EstabelecimentoRepository estabelecimentoRepository) {
-        this.estabelecimentoRepository = estabelecimentoRepository;
+    public Estabelecimento findById(Long id) {
+        return estabelecimentoRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Estabelecimento não encontrado"));
     }
 
     @Transactional

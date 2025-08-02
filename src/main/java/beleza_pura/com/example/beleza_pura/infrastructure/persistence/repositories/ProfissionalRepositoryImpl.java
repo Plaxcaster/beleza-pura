@@ -1,6 +1,9 @@
 package beleza_pura.com.example.beleza_pura.infrastructure.persistence.repositories;
 
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
+
 import org.springframework.stereotype.Repository;
 import beleza_pura.com.example.beleza_pura.domain.models.Profissional;
 import beleza_pura.com.example.beleza_pura.domain.repositories.ProfissionalRepository;
@@ -30,5 +33,12 @@ public class ProfissionalRepositoryImpl implements ProfissionalRepository {
     public Optional<Profissional> findById(Long id) {
         return jpaRepository.findById(id)
                 .map(mapper::toDomain);
+    }
+
+    @Override
+    public List<Profissional> findByEstabelecimentoId(Long estabelecimentoId) {
+        return jpaRepository.findByEstabelecimentoId(estabelecimentoId).stream()
+                .map(mapper::toDomain)
+                .collect(Collectors.toList());
     }
 }
