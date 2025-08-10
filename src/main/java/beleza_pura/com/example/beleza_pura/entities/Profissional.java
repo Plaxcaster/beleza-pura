@@ -1,24 +1,27 @@
 package beleza_pura.com.example.beleza_pura.entities;
 
-import java.util.Set;
-import java.util.UUID;
-
 import lombok.*;
 
+import java.util.List;
+import java.util.UUID;
+
 @Getter
-@Setter
 @Builder
+@Setter
+@NoArgsConstructor
 @AllArgsConstructor
 public class Profissional {
+
     private UUID id;
     private String nome;
-    private Set<Especialidade> especialidades;
-    private Estabelecimento estabelecimento;
-    private Disponibilidade disponibilidade;
+    private List<Especialidade> especialidades;
+    private HorarioAtendimento horario;
 
-    // Domain logic
-    public boolean possuiEspecialidade(String especialidade) {
-        return especialidades.contains(especialidade);
+
+    public Profissional(String nome, List<Especialidade> especialidades, HorarioAtendimento horario) {
+        this.id = UUID.randomUUID();
+        this.especialidades = especialidades;
+        this.nome = nome;
+        this.horario = horario;
     }
-
 }

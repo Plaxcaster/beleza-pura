@@ -1,6 +1,9 @@
 package beleza_pura.com.example.beleza_pura.entities;
 
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.util.Set;
 import java.util.UUID;
@@ -13,8 +16,6 @@ public class Estabelecimento {
     private UUID id;
     private String nome;
     private String endereco;
-    private Set<String> fotos;
-    private HorarioFuncionamento horarioFuncionamento;
-
-
+    private Set<Profissional> profissionais;
+    private HorarioAtendimento horarioAtendimento;
 }

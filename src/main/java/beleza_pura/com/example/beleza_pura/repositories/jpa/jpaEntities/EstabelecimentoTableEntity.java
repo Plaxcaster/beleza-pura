@@ -1,12 +1,9 @@
 package beleza_pura.com.example.beleza_pura.repositories.jpa.jpaEntities;
 
 import beleza_pura.com.example.beleza_pura.entities.Estabelecimento;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.JoinTable;
-import jakarta.persistence.OneToMany;
-import jakarta.persistence.Table;
+import beleza_pura.com.example.beleza_pura.entities.HorarioAtendimento;
+import beleza_pura.com.example.beleza_pura.entities.Profissional;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -23,24 +20,33 @@ import java.util.UUID;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class EstabelecimentoJpaEntity {
+public class EstabelecimentoTableEntity {
     @Id
     private UUID id;
     private String nome;
     private String endereco;
+    private LocalTime horarioAbertura;
+    private LocalTime horarioFechamento;
     @OneToMany
     @JoinTable(name = "ESTABELECIMENTO_PROFISSIONAL", joinColumns = @JoinColumn(name = "estabelecimento_id"), inverseJoinColumns = @JoinColumn(name = "profissional_id"))
-    private Set<ProfissionalJpaEntity> profissionais;
+    private Set<ProfissionalTableEntity> profissionais;
 
     public EstabelecimentoTableEntity(Estabelecimento estabelecimento) {
         this.id = estabelecimento.getId();
         this.nome = estabelecimento.getNome();
         this.endereco = estabelecimento.getEndereco();
+        this.horarioAbertura = estabelecimento.getHorarioAtendimento().getAbertura();
+        this.horarioFechamento = estabelecimento.getHorarioAtendimento().getFechamento();
+        Set<ProfissionalTableEntity> profissionaisTable = new HashSet<>();
+        estabelecimento.getProfissionais()
+                .forEach(profissional -> profissionaisTable.add(new ProfissionalTableEntity(profissional)));
+        this.profissionais = profissionaisTable;
     }
 
     public Estabelecimento toEstabelecimento() {
-
-        this.profissionais.forEach(profissional -> profi.add(profissional.toProfissionalEntidade()));
+        Set<Profissional> profissionaisEntity = new HashSet<>();
+        this.profissionais.forEach(profissional -> profissionaisEntity.add(profissional.toProfissionalEntidade()));
+        HorarioAtendimento horario = new HorarioAtendimento(this.horarioAbertura, this.horarioFechamento);
         return new Estabelecimento(this.id, this.nome, this.endereco, profissionaisEntity, horario);
     }
 
