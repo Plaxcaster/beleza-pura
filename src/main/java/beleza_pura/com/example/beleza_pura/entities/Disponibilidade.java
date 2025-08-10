@@ -11,7 +11,6 @@ import java.util.Set;
 @Builder
 @AllArgsConstructor
 public class Disponibilidade {
-    private Set<DayOfWeek> diasTrabalho;
     private LocalTime horaInicio;
     private LocalTime horaFim;
 }
