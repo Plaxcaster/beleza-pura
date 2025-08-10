@@ -13,6 +13,6 @@ import java.time.LocalTime;
 @AllArgsConstructor
 public class HorarioAtendimento {
 
-    private LocalTime abertura;
-    private LocalTime fechamento;
+    private LocalTime horarioInicio;
+    private LocalTime horarioFim;
 }

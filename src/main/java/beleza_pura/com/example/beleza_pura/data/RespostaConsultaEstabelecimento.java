@@ -7,14 +7,14 @@ import lombok.Data;
 @Data
 public class RespostaConsultaEstabelecimento {
     private String nome;
-    private String horarioAbertura;
-    private String horarioFechamento;
+    private String horarioInicio;
+    private String horarioFim;
     private String endereco;
 
     public RespostaConsultaEstabelecimento(Estabelecimento estabelecimento) {
         this.nome = estabelecimento.getNome();
-        this.horarioAbertura = estabelecimento.getHorarioAtendimento().getAbertura().toString();
-        this.horarioFechamento = estabelecimento.getHorarioAtendimento().getFechamento().toString();
+        this.horarioInicio = estabelecimento.getHorarioAtendimento().getHorarioInicio().toString();
+        this.horarioFim = estabelecimento.getHorarioAtendimento().getHorarioFim().toString();
         this.endereco = estabelecimento.getEndereco();
     }
 

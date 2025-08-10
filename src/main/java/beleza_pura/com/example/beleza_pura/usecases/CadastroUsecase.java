@@ -32,8 +32,8 @@ public class CadastroUsecase {
 
     public Profissional cadastrarProfissional(CadastrarProfissionalRequisicao requisicao) {
 
-        HorarioAtendimento horario = new HorarioAtendimento(converteHorario(requisicao.getHorarioAbertura()),
-                converteHorario(requisicao.getHorarioFechamento()));
+        HorarioAtendimento horario = new HorarioAtendimento(converteHorario(requisicao.getHorarioInicio()),
+                converteHorario(requisicao.getHorarioFim()));
 
         Profissional profissional = Profissional.builder().especialidades(List.of()).nome(requisicao.getNome())
                 .horario(horario).build();
@@ -73,8 +73,8 @@ public class CadastroUsecase {
 
     public Estabelecimento cadastrarEstabelecimento(CadastrarEstabelecimentoRequisicao requisicao) {
 
-        HorarioAtendimento horario = new HorarioAtendimento(converteHorario(requisicao.getHorarioAbertura()),
-                converteHorario(requisicao.getHorarioFechamento()));
+        HorarioAtendimento horario = new HorarioAtendimento(converteHorario(requisicao.getHorarioInicio()),
+                converteHorario(requisicao.getHorarioFim()));
 
         Estabelecimento estabelecimento = Estabelecimento.builder().endereco(requisicao.getEndereco())
                 .nome(requisicao.getNome()).horarioAtendimento(horario).profissionais(Set.of()).build();

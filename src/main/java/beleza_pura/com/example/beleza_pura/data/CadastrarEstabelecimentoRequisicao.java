@@ -6,6 +6,6 @@ import lombok.Data;
 public class CadastrarEstabelecimentoRequisicao {
     private String nome;
     private String endereco;
-    private String HorarioAbertura;
-    private String HorarioFechamento;
+    private String horarioInicio;
+    private String horarioFim;
 }

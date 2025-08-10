@@ -10,14 +10,14 @@ import java.util.stream.Collectors;
 @Data
 public class RespostaConsultaProfissional {
     private String nome;
-    private String horarioAbertura;
-    private String horarioFechamento;
+    private String horarioInicio;
+    private String horarioFim;
     private Set<EspecialidadeDto> especialidades;
 
     public RespostaConsultaProfissional(Profissional profissional) {
         this.nome = profissional.getNome();
-        this.horarioAbertura = profissional.getHorario().getAbertura().toString();
-        this.horarioFechamento = profissional.getHorario().getFechamento().toString();
+        this.horarioInicio = profissional.getHorario().getHorarioInicio().toString();
+        this.horarioFim = profissional.getHorario().getHorarioFim().toString();
         this.especialidades = profissional.getEspecialidades().stream()
                 .map(especialidade -> new EspecialidadeDto(especialidade)).collect(Collectors.toSet());
     }

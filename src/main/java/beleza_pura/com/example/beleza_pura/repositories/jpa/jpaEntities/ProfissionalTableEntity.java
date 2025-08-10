@@ -21,14 +21,14 @@ public class ProfissionalTableEntity {
     private UUID id;
     private String nome;
     private LocalTime horarioInicio;
-    private LocalTime horarioFechamento;
+    private LocalTime horarioFim;
     private int valor;
     @ManyToMany
     @JoinTable(name = "ESPECIALIDADE_PROFISSIONAL", joinColumns = @JoinColumn(name = "profissional_id"), inverseJoinColumns = @JoinColumn(name = "especialidade_id"))
     private Set<EspecialidadeTableEntity> especialidades;
 
     public Profissional toProfissionalEntidade() {
-        HorarioAtendimento horarioEntidade = new HorarioAtendimento(horarioInicio, horarioFechamento);
+        HorarioAtendimento horarioEntidade = new HorarioAtendimento(horarioInicio, horarioFim);
         List<Especialidade> especialidadesEntidade = new LinkedList<>();
 
         especialidades.forEach(especialidade -> especialidadesEntidade.add(especialidade.toEspecialidadeEntidade()));
@@ -39,8 +39,8 @@ public class ProfissionalTableEntity {
 
     public ProfissionalTableEntity(Profissional profissional) {
         this.nome = profissional.getNome();
-        this.horarioInicio = profissional.getHorario().getAbertura();
-        this.horarioFechamento = profissional.getHorario().getFechamento();
+        this.horarioInicio = profissional.getHorario().getHorarioInicio();
+        this.horarioFim = profissional.getHorario().getHorarioFim();
         this.id = profissional.getId();
         Set<EspecialidadeTableEntity> especialidadesTable = new HashSet<>();
         profissional.getEspecialidades()

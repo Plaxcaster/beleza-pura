@@ -25,8 +25,8 @@ public class EstabelecimentoTableEntity {
     private UUID id;
     private String nome;
     private String endereco;
-    private LocalTime horarioAbertura;
-    private LocalTime horarioFechamento;
+    private LocalTime horarioInicio;
+    private LocalTime horarioFim;
     @OneToMany
     @JoinTable(name = "ESTABELECIMENTO_PROFISSIONAL", joinColumns = @JoinColumn(name = "estabelecimento_id"), inverseJoinColumns = @JoinColumn(name = "profissional_id"))
     private Set<ProfissionalTableEntity> profissionais;
@@ -35,8 +35,8 @@ public class EstabelecimentoTableEntity {
         this.id = estabelecimento.getId();
         this.nome = estabelecimento.getNome();
         this.endereco = estabelecimento.getEndereco();
-        this.horarioAbertura = estabelecimento.getHorarioAtendimento().getAbertura();
-        this.horarioFechamento = estabelecimento.getHorarioAtendimento().getFechamento();
+        this.horarioInicio = estabelecimento.getHorarioAtendimento().getHorarioInicio();
+        this.horarioFim = estabelecimento.getHorarioAtendimento().getHorarioFim();
         Set<ProfissionalTableEntity> profissionaisTable = new HashSet<>();
         estabelecimento.getProfissionais()
                 .forEach(profissional -> profissionaisTable.add(new ProfissionalTableEntity(profissional)));
@@ -46,7 +46,7 @@ public class EstabelecimentoTableEntity {
     public Estabelecimento toEstabelecimento() {
         Set<Profissional> profissionaisEntity = new HashSet<>();
         this.profissionais.forEach(profissional -> profissionaisEntity.add(profissional.toProfissionalEntidade()));
-        HorarioAtendimento horario = new HorarioAtendimento(this.horarioAbertura, this.horarioFechamento);
+        HorarioAtendimento horario = new HorarioAtendimento(this.horarioInicio, this.horarioFim);
         return new Estabelecimento(this.id, this.nome, this.endereco, profissionaisEntity, horario);
     }
 
