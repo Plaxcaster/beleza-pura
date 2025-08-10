@@ -1,6 +1,7 @@
 package beleza_pura.com.example.beleza_pura.gateways;
 
 import beleza_pura.com.example.beleza_pura.data.*;
+import beleza_pura.com.example.beleza_pura.entities.Cliente;
 import beleza_pura.com.example.beleza_pura.entities.Especialidade;
 import beleza_pura.com.example.beleza_pura.entities.Estabelecimento;
 import beleza_pura.com.example.beleza_pura.entities.Profissional;
@@ -51,12 +52,12 @@ public class CadastroGateway {
         }
     }
 
-    @Operation(summary = "Cadastrar um estabelecimento", tags = "Estabelecimento")
-    @PostMapping("/estabelecimento")
-    public ResponseEntity<Estabelecimento> cadastrarEspecialidade(
-            @RequestBody CadastrarEstabelecimentoRequisicao requisicao) {
+    @Operation(summary = "Cadastrar um novo cliente", tags = "Cliente")
+    @PostMapping("/cliente")
+    public ResponseEntity<Cliente> cadastrarEspecialidade(
+            @RequestBody CadastrarClienteRequisicao requisicao) {
         try {
-            return Optional.ofNullable(cadastroUsecase.cadastrarEstabelecimento(requisicao))
+            return Optional.ofNullable(cadastroUsecase.cadastrarCliente(requisicao))
                     .map(resultado -> ResponseEntity.ok()
                             .body(resultado))
                     .orElseGet(() -> ResponseEntity.internalServerError().build());

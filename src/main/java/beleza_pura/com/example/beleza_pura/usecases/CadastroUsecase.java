@@ -2,6 +2,7 @@ package beleza_pura.com.example.beleza_pura.usecases;
 
 import beleza_pura.com.example.beleza_pura.data.*;
 import beleza_pura.com.example.beleza_pura.entities.*;
+import beleza_pura.com.example.beleza_pura.repositories.ClienteRepository;
 import beleza_pura.com.example.beleza_pura.repositories.EspecialidadeRepository;
 import beleza_pura.com.example.beleza_pura.repositories.EstabelecimentoRepository;
 import beleza_pura.com.example.beleza_pura.repositories.ProfissionalRepository;
@@ -17,15 +18,17 @@ import java.util.Set;
 public class CadastroUsecase {
 
     public CadastroUsecase(ProfissionalRepository repositoryProfissional,
-            EspecialidadeRepository repositoryEspecialidade, EstabelecimentoRepository repositoryEstabelecimento) {
+                           EspecialidadeRepository repositoryEspecialidade, EstabelecimentoRepository repositoryEstabelecimento, ClienteRepository repositoryCliente) {
         this.repositoryProfissional = repositoryProfissional;
         this.repositoryEspecialidade = repositoryEspecialidade;
         this.repositoryEstabelecimento = repositoryEstabelecimento;
+        this.repositoryCliente = repositoryCliente;
     }
 
     private final ProfissionalRepository repositoryProfissional;
     private final EspecialidadeRepository repositoryEspecialidade;
     private final EstabelecimentoRepository repositoryEstabelecimento;
+    private final ClienteRepository repositoryCliente;
 
     public Profissional cadastrarProfissional(CadastrarProfissionalRequisicao requisicao) {
 
@@ -35,6 +38,16 @@ public class CadastroUsecase {
         Profissional profissional = Profissional.builder().especialidades(List.of()).nome(requisicao.getNome())
                 .horario(horario).build();
         return repositoryProfissional.cadastrar(profissional);
+    }
+
+    public Cliente cadastrarCliente(CadastrarClienteRequisicao requisicao) {
+        Cliente cliente = Cliente.builder()
+                .nome(requisicao.getNome())
+                .email(requisicao.getEmail())
+                .telefone(requisicao.getTelefone())
+                .build();
+
+        return repositoryCliente.cadastrar(cliente);
     }
 
     public Especialidade cadastrarEspecialidade(CadastrarEspecialidadeRequisicao requisicao) {
