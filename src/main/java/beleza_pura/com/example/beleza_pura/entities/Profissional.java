@@ -1,14 +1,18 @@
-package beleza_pura.com.example.beleza_pura.domain.models;
+package beleza_pura.com.example.beleza_pura.entities;
 
 import java.util.Set;
+import java.util.UUID;
 
-import lombok.Data;
+import lombok.*;
 
-@Data
+@Getter
+@Setter
+@Builder
+@AllArgsConstructor
 public class Profissional {
-    private Long id;
+    private UUID id;
     private String nome;
-    private Set<String> especialidades;
+    private Set<Especialidade> especialidades;
     private Estabelecimento estabelecimento;
     private Disponibilidade disponibilidade;
 
