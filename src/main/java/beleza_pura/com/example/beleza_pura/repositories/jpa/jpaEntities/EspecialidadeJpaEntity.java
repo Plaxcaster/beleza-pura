@@ -19,14 +19,14 @@ import java.util.UUID;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class EspecialidadeTableEntity {
+public class EspecialidadeJpaEntity {
     @Id
     private UUID id;
     private String nome;
     @ManyToMany(mappedBy = "especialidades")
-    private Set<ProfissionalTableEntity> profissionais;
+    private Set<ProfissionalJpaEntity> profissionais;
 
-    public EspecialidadeTableEntity(Especialidade especialidade) {
+    public EspecialidadeJpaEntity(Especialidade especialidade) {
         this.id = especialidade.getId();
         this.nome = especialidade.getNome();
     }

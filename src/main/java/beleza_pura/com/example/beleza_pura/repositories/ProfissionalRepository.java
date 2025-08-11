@@ -2,11 +2,12 @@ package beleza_pura.com.example.beleza_pura.repositories;
 
 import beleza_pura.com.example.beleza_pura.entities.Profissional;
 import beleza_pura.com.example.beleza_pura.repositories.jpa.ProfissionalJpaRepository;
-import beleza_pura.com.example.beleza_pura.repositories.jpa.jpaEntities.EspecialidadeTableEntity;
-import beleza_pura.com.example.beleza_pura.repositories.jpa.jpaEntities.ProfissionalTableEntity;
+import beleza_pura.com.example.beleza_pura.repositories.jpa.jpaEntities.EspecialidadeJpaEntity;
+import beleza_pura.com.example.beleza_pura.repositories.jpa.jpaEntities.ProfissionalJpaEntity;
 import org.springframework.stereotype.Component;
 
 import java.util.HashSet;
+import java.util.Optional;
 import java.util.Set;
 import java.util.UUID;
 
@@ -21,26 +22,29 @@ public class ProfissionalRepository {
 
     public Profissional cadastrar(Profissional profissional) {
 
-        ProfissionalTableEntity profissionalTable = new ProfissionalTableEntity(profissional);
+        ProfissionalJpaEntity profissionalTable = new ProfissionalJpaEntity(profissional);
         profissionalTable.setId(UUID.randomUUID());
         profissionalTable.setEspecialidades(Set.of());
 
         return repository.save(profissionalTable).toProfissionalEntidade();
     }
 
-    public Profissional buscaPorId(UUID id) {
-        return repository.findById(id).get().toProfissionalEntidade();
+    public Optional<Profissional> buscaPorId(UUID id) {
+        return repository.findById(id)
+                .map(ProfissionalJpaEntity::toProfissionalEntidade);
     }
 
     public Profissional salvar(Profissional profissional) {
-        ProfissionalTableEntity profissionaTable = new ProfissionalTableEntity(profissional);
+        ProfissionalJpaEntity profissionaTable = new ProfissionalJpaEntity(profissional);
 
-        Set<EspecialidadeTableEntity> especialidadesTable = new HashSet<>();
+        Set<EspecialidadeJpaEntity> especialidadesTable = new HashSet<>();
         profissional.getEspecialidades()
-                .forEach(especialidade -> especialidadesTable.add(new EspecialidadeTableEntity(especialidade)));
+                .forEach(especialidade -> especialidadesTable.add(new EspecialidadeJpaEntity(especialidade)));
         profissionaTable.setEspecialidades(especialidadesTable);
 
         return repository.save(profissionaTable).toProfissionalEntidade();
     }
+
+
 
 }

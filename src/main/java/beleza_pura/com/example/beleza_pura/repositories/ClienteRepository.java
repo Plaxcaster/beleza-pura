@@ -2,9 +2,10 @@ package beleza_pura.com.example.beleza_pura.repositories;
 
 import beleza_pura.com.example.beleza_pura.entities.Cliente;
 import beleza_pura.com.example.beleza_pura.repositories.jpa.ClienteJpaRepository;
-import beleza_pura.com.example.beleza_pura.repositories.jpa.jpaEntities.ClienteTableEntity;
+import beleza_pura.com.example.beleza_pura.repositories.jpa.jpaEntities.ClienteJpaEntity;
 import org.springframework.stereotype.Component;
 
+import java.util.Optional;
 import java.util.UUID;
 
 @Component
@@ -17,17 +18,16 @@ public class ClienteRepository {
     }
 
     public Cliente cadastrar(Cliente cliente) {
-        ClienteTableEntity clienteTable = new ClienteTableEntity(cliente);
+        ClienteJpaEntity clienteTable = new ClienteJpaEntity(cliente);
         clienteTable.setId(UUID.randomUUID());
         clienteTable = repository.save(clienteTable);
 
         return clienteTable.toClienteEntidade();
     }
 
-    public Cliente buscaPorId(UUID idCliente) {
+    public Optional<Cliente> buscaPorId(UUID idCliente) {
         return repository.findById(idCliente)
-                .map(ClienteTableEntity::toClienteEntidade)
-                .orElse(null);
+                .map(ClienteJpaEntity::toClienteEntidade);
     }
 
 }

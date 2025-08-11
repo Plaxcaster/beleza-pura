@@ -16,7 +16,7 @@ import java.util.*;
 @Getter
 @Setter
 @NoArgsConstructor
-public class ProfissionalTableEntity {
+public class ProfissionalJpaEntity {
     @Id
     private UUID id;
     private String nome;
@@ -25,7 +25,7 @@ public class ProfissionalTableEntity {
     private int valor;
     @ManyToMany
     @JoinTable(name = "ESPECIALIDADE_PROFISSIONAL", joinColumns = @JoinColumn(name = "profissional_id"), inverseJoinColumns = @JoinColumn(name = "especialidade_id"))
-    private Set<EspecialidadeTableEntity> especialidades;
+    private Set<EspecialidadeJpaEntity> especialidades;
 
     public Profissional toProfissionalEntidade() {
         HorarioAtendimento horarioEntidade = new HorarioAtendimento(horarioInicio, horarioFim);
@@ -37,14 +37,14 @@ public class ProfissionalTableEntity {
                 .especialidades(especialidadesEntidade).build();
     }
 
-    public ProfissionalTableEntity(Profissional profissional) {
+    public ProfissionalJpaEntity(Profissional profissional) {
         this.nome = profissional.getNome();
         this.horarioInicio = profissional.getHorario().getHorarioInicio();
         this.horarioFim = profissional.getHorario().getHorarioFim();
         this.id = profissional.getId();
-        Set<EspecialidadeTableEntity> especialidadesTable = new HashSet<>();
+        Set<EspecialidadeJpaEntity> especialidadesTable = new HashSet<>();
         profissional.getEspecialidades()
-                .forEach(especialidade -> especialidadesTable.add(new EspecialidadeTableEntity(especialidade)));
+                .forEach(especialidade -> especialidadesTable.add(new EspecialidadeJpaEntity(especialidade)));
         this.especialidades = especialidadesTable;
 
     }

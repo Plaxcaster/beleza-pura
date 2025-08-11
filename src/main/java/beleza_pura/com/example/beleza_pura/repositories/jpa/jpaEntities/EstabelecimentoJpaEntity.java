@@ -20,7 +20,7 @@ import java.util.UUID;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class EstabelecimentoTableEntity {
+public class EstabelecimentoJpaEntity {
     @Id
     private UUID id;
     private String nome;
@@ -29,17 +29,17 @@ public class EstabelecimentoTableEntity {
     private LocalTime horarioFim;
     @OneToMany
     @JoinTable(name = "ESTABELECIMENTO_PROFISSIONAL", joinColumns = @JoinColumn(name = "estabelecimento_id"), inverseJoinColumns = @JoinColumn(name = "profissional_id"))
-    private Set<ProfissionalTableEntity> profissionais;
+    private Set<ProfissionalJpaEntity> profissionais;
 
-    public EstabelecimentoTableEntity(Estabelecimento estabelecimento) {
+    public EstabelecimentoJpaEntity(Estabelecimento estabelecimento) {
         this.id = estabelecimento.getId();
         this.nome = estabelecimento.getNome();
         this.endereco = estabelecimento.getEndereco();
         this.horarioInicio = estabelecimento.getHorarioAtendimento().getHorarioInicio();
         this.horarioFim = estabelecimento.getHorarioAtendimento().getHorarioFim();
-        Set<ProfissionalTableEntity> profissionaisTable = new HashSet<>();
+        Set<ProfissionalJpaEntity> profissionaisTable = new HashSet<>();
         estabelecimento.getProfissionais()
-                .forEach(profissional -> profissionaisTable.add(new ProfissionalTableEntity(profissional)));
+                .forEach(profissional -> profissionaisTable.add(new ProfissionalJpaEntity(profissional)));
         this.profissionais = profissionaisTable;
     }
 

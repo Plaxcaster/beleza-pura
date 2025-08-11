@@ -15,4 +15,11 @@ public class HorarioAtendimento {
 
     private LocalTime horarioInicio;
     private LocalTime horarioFim;
+
+    public boolean estaDentroDoHorario(LocalTime localTime) {
+        if (localTime == null) {
+            return false;
+        }
+        return !localTime.isBefore(horarioInicio) && !localTime.isAfter(horarioFim);
+    }
 }

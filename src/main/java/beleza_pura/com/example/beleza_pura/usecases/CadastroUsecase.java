@@ -2,41 +2,44 @@ package beleza_pura.com.example.beleza_pura.usecases;
 
 import beleza_pura.com.example.beleza_pura.data.*;
 import beleza_pura.com.example.beleza_pura.entities.*;
-import beleza_pura.com.example.beleza_pura.repositories.ClienteRepository;
-import beleza_pura.com.example.beleza_pura.repositories.EspecialidadeRepository;
-import beleza_pura.com.example.beleza_pura.repositories.EstabelecimentoRepository;
-import beleza_pura.com.example.beleza_pura.repositories.ProfissionalRepository;
+import beleza_pura.com.example.beleza_pura.exceptions.EntityNotFoundException;
+import beleza_pura.com.example.beleza_pura.repositories.*;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalTime;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Component
 public class CadastroUsecase {
-
-    public CadastroUsecase(ProfissionalRepository repositoryProfissional,
-                           EspecialidadeRepository repositoryEspecialidade, EstabelecimentoRepository repositoryEstabelecimento, ClienteRepository repositoryCliente) {
-        this.repositoryProfissional = repositoryProfissional;
-        this.repositoryEspecialidade = repositoryEspecialidade;
-        this.repositoryEstabelecimento = repositoryEstabelecimento;
-        this.repositoryCliente = repositoryCliente;
-    }
 
     private final ProfissionalRepository repositoryProfissional;
     private final EspecialidadeRepository repositoryEspecialidade;
     private final EstabelecimentoRepository repositoryEstabelecimento;
     private final ClienteRepository repositoryCliente;
 
+    public CadastroUsecase(ProfissionalRepository repositoryProfissional,
+                           EspecialidadeRepository repositoryEspecialidade,
+                           EstabelecimentoRepository repositoryEstabelecimento,
+                           ClienteRepository repositoryCliente) {
+        this.repositoryProfissional = repositoryProfissional;
+        this.repositoryEspecialidade = repositoryEspecialidade;
+        this.repositoryEstabelecimento = repositoryEstabelecimento;
+        this.repositoryCliente = repositoryCliente;
+    }
+
     public Profissional cadastrarProfissional(CadastrarProfissionalRequisicao requisicao) {
+        HorarioAtendimento horario = new HorarioAtendimento(
+                converteHorario(requisicao.getHorarioInicio()),
+                converteHorario(requisicao.getHorarioFim())
+        );
 
-        HorarioAtendimento horario = new HorarioAtendimento(converteHorario(requisicao.getHorarioInicio()),
-                converteHorario(requisicao.getHorarioFim()));
+        Profissional profissional = Profissional.builder()
+                .especialidades(List.of())
+                .nome(requisicao.getNome())
+                .horario(horario)
+                .build();
 
-        Profissional profissional = Profissional.builder().especialidades(List.of()).nome(requisicao.getNome())
-                .horario(horario).build();
         return repositoryProfissional.cadastrar(profissional);
     }
 
@@ -51,46 +54,52 @@ public class CadastroUsecase {
     }
 
     public Especialidade cadastrarEspecialidade(CadastrarEspecialidadeRequisicao requisicao) {
-
-        Especialidade especialidade = Especialidade.builder().nome(requisicao.getNome())
+        Especialidade especialidade = Especialidade.builder()
+                .nome(requisicao.getNome())
                 .build();
 
         return repositoryEspecialidade.cadastrar(especialidade);
     }
 
     public Profissional vincularEspecialidades(VincularEspecialidadeRequisicao requisicao) {
+        Profissional profissional = repositoryProfissional.buscaPorId(requisicao.getIdProfissional())
+                .orElseThrow(() -> new EntityNotFoundException("Profissional não encontrado"));
 
-        Profissional profissional = repositoryProfissional.buscaPorId(requisicao.getIdProfissional());
-
-        List<Especialidade> especialidades = new ArrayList<>();
-
-        requisicao.getListaEspecialidades()
-                .forEach(idEspecialidade -> especialidades.add(repositoryEspecialidade.buscaPorId(idEspecialidade)));
+        List<Especialidade> especialidades = requisicao.getListaEspecialidades().stream()
+                .map(id -> repositoryEspecialidade.buscaPorId(id)
+                        .orElseThrow(() -> new EntityNotFoundException("Especialidade não encontrada")))
+                .collect(Collectors.toList());
 
         profissional.setEspecialidades(especialidades);
         return repositoryProfissional.salvar(profissional);
     }
 
     public Estabelecimento cadastrarEstabelecimento(CadastrarEstabelecimentoRequisicao requisicao) {
+        HorarioAtendimento horario = new HorarioAtendimento(
+                converteHorario(requisicao.getHorarioInicio()),
+                converteHorario(requisicao.getHorarioFim())
+        );
 
-        HorarioAtendimento horario = new HorarioAtendimento(converteHorario(requisicao.getHorarioInicio()),
-                converteHorario(requisicao.getHorarioFim()));
+        Estabelecimento estabelecimento = Estabelecimento.builder()
+                .endereco(requisicao.getEndereco())
+                .nome(requisicao.getNome())
+                .horarioAtendimento(horario)
+                .profissionais(Set.of())
+                .build();
 
-        Estabelecimento estabelecimento = Estabelecimento.builder().endereco(requisicao.getEndereco())
-                .nome(requisicao.getNome()).horarioAtendimento(horario).profissionais(Set.of()).build();
         return repositoryEstabelecimento.cadastrar(estabelecimento);
     }
 
     public Estabelecimento vincularEstabelecimento(VincularEstabelecimentoRequisicao requisicao) {
-        Estabelecimento estabelecimento = repositoryEstabelecimento.buscaPorId(requisicao.getIdEstabelecimento());
+        Estabelecimento estabelecimento = repositoryEstabelecimento.buscaPorId(requisicao.getIdEstabelecimento())
+                .orElseThrow(() -> new EntityNotFoundException("Estabelecimento não encontrado"));
 
-        Set<Profissional> profissionais = new HashSet<>();
+        Set<Profissional> profissionais = requisicao.getListaProfissionais().stream()
+                .map(id -> repositoryProfissional.buscaPorId(id))
+                .map(opt -> opt.orElseThrow(() -> new EntityNotFoundException("Profissional não encontrado")))
+                .collect(Collectors.toSet());
 
-        requisicao.getListaProfissionais()
-                .forEach(idProfissional -> profissionais.add(repositoryProfissional.buscaPorId(idProfissional)));
-
-        estabelecimento.setProfissionais(profissionais);                
-
+        estabelecimento.setProfissionais(profissionais);
         return repositoryEstabelecimento.salvar(estabelecimento);
     }
 
@@ -98,7 +107,7 @@ public class CadastroUsecase {
         try {
             return LocalTime.parse(horario);
         } catch (Exception e) {
-            return LocalTime.MIDNIGHT;
+            throw new IllegalArgumentException("Formato de horário inválido", e);
         }
     }
 }
