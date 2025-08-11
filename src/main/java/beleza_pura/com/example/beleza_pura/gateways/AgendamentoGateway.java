@@ -1,14 +1,16 @@
 package beleza_pura.com.example.beleza_pura.gateways;
 
-import beleza_pura.com.example.beleza_pura.data.MarcarAgendamentoRequisicao;
-import beleza_pura.com.example.beleza_pura.data.MarcarAgendamentoResposta;
+import beleza_pura.com.example.beleza_pura.data.*;
+import beleza_pura.com.example.beleza_pura.exceptions.AgendamentoOperationException;
+import beleza_pura.com.example.beleza_pura.exceptions.EntityNotFoundException;
 import beleza_pura.com.example.beleza_pura.usecases.AgendamentoUsecase;
 import io.swagger.v3.oas.annotations.Operation;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+import java.util.UUID;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/agendamentos")
@@ -30,6 +32,38 @@ public class AgendamentoGateway {
                             agendamentoUsecase.marcarAgendamento(requisicao)));
         } catch (IllegalArgumentException e) {
             return ResponseEntity.badRequest().build();
+        } catch (Exception e) {
+            return ResponseEntity.internalServerError().build();
+        }
+    }
+
+    @Operation(summary = "Cancelar um agendamento", tags = "Agendamento")
+    @PatchMapping("/{id}/cancelar")
+    public ResponseEntity<?> cancelarAgendamento(
+            @PathVariable Long id) {
+        try {
+            return ResponseEntity.ok()
+                    .body(new MarcarAgendamentoResposta(
+                            agendamentoUsecase.cancelarAgendamento(id)));
+        } catch (EntityNotFoundException e) {
+            return ResponseEntity.notFound().build();
+        } catch (AgendamentoOperationException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        } catch (Exception e) {
+            return ResponseEntity.internalServerError().build();
+        }
+    }
+
+    @Operation(summary = "Listar agendamentos por cliente", tags = "Agendamento")
+    @GetMapping("/cliente/{clienteId}")
+    public ResponseEntity<List<MarcarAgendamentoResposta>> listarPorCliente(
+            @PathVariable UUID clienteId) {
+        try {
+            List<MarcarAgendamentoResposta> agendamentos = agendamentoUsecase
+                    .listarAgendamentosPorCliente(clienteId).stream()
+                    .map(MarcarAgendamentoResposta::new)
+                    .collect(Collectors.toList());
+            return ResponseEntity.ok(agendamentos);
         } catch (Exception e) {
             return ResponseEntity.internalServerError().build();
         }

@@ -11,9 +11,9 @@ import java.util.UUID;
 public interface AgendamentoJpaRepository extends JpaRepository<AgendamentoJpaEntity, Long> {
     boolean existsByProfissionalIdAndDataHora(UUID profissionalId, LocalDateTime dataHora);
 
-    @Query("SELECT a FROM AgendamentoTableEntity a WHERE a.cliente.id = :clienteId")
+    @Query("SELECT a FROM AgendamentoJpaEntity a WHERE a.cliente.id = :clienteId")
     List<AgendamentoJpaEntity> findByClienteId(@Param("clienteId") UUID clienteId);
 
-    @Query("SELECT a FROM AgendamentoTableEntity a WHERE a.profissional.id = :profissionalId")
+    @Query("SELECT a FROM AgendamentoJpaEntity a WHERE a.profissional.id = :profissionalId")
     List<AgendamentoJpaEntity> findByProfissionalId(@Param("profissionalId") UUID profissionalId);
 }

@@ -2,6 +2,8 @@ package beleza_pura.com.example.beleza_pura.usecases;
 
 import beleza_pura.com.example.beleza_pura.data.*;
 import beleza_pura.com.example.beleza_pura.entities.*;
+import beleza_pura.com.example.beleza_pura.exceptions.AgendamentoOperationException;
+import beleza_pura.com.example.beleza_pura.exceptions.EntityNotFoundException;
 import beleza_pura.com.example.beleza_pura.repositories.*;
 import org.springframework.stereotype.Component;
 
@@ -86,6 +88,22 @@ public class AgendamentoUsecase {
                 .orElseThrow(() -> new IllegalArgumentException("Agendamento não encontrado"));
 
         agendamento.setStatus(novoStatus);
+        return agendamentoRepository.salvar(agendamento);
+    }
+
+    public Agendamento cancelarAgendamento(Long agendamentoId) {
+        Agendamento agendamento = agendamentoRepository.buscarPorId(agendamentoId)
+                .orElseThrow(() -> new EntityNotFoundException("Agendamento não encontrado"));
+
+        if (agendamento.getStatus() == StatusAgendamento.CONCLUIDO) {
+            throw new AgendamentoOperationException("Não é possível cancelar um agendamento já concluído");
+        }
+
+        if (agendamento.getStatus() == StatusAgendamento.CANCELADO) {
+            throw new AgendamentoOperationException("Agendamento já está cancelado");
+        }
+
+        agendamento.setStatus(StatusAgendamento.CANCELADO);
         return agendamentoRepository.salvar(agendamento);
     }
 }
