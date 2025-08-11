@@ -15,7 +15,7 @@ INSERT INTO ESPECIALIDADE (id, nome) VALUES
     ('550e8400-e29b-41d4-a716-446655440005', 'Massagem');
 
 -- Insert professionals
-INSERT INTO PROFISSIONAL (id, nome, horario_inicio, horario_fim, valor) VALUES
+INSERT INTO PROFISSIONAL (id, nome, horario_inicio, horario_fim, tarifa) VALUES
     ('660e8400-e29b-41d4-a716-446655440001', 'João Silva', '09:00:00', '18:00:00', 50),
     ('660e8400-e29b-41d4-a716-446655440002', 'Maria Souza', '10:00:00', '19:00:00', 60),
     ('660e8400-e29b-41d4-a716-446655440003', 'Carlos Oliveira', '08:00:00', '17:00:00', 70);

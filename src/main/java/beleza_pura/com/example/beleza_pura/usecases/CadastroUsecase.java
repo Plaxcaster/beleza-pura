@@ -38,6 +38,7 @@ public class CadastroUsecase {
                 .especialidades(List.of())
                 .nome(requisicao.getNome())
                 .horario(horario)
+                .tarifa(requisicao.getTarifa())
                 .build();
 
         return repositoryProfissional.cadastrar(profissional);
