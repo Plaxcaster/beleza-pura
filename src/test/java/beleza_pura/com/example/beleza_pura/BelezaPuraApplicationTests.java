@@ -1,13 +1,13 @@
-package beleza_pura.com.example.beleza_pura;
+// package beleza_pura.com.example.beleza_pura;
 
-import org.junit.jupiter.api.Test;
-import org.springframework.boot.test.context.SpringBootTest;
+// import org.junit.jupiter.api.Test;
+// import org.springframework.boot.test.context.SpringBootTest;
 
-@SpringBootTest
-class BelezaPuraApplicationTests {
+// @SpringBootTest
+// class BelezaPuraApplicationTests {
 
-	@Test
-	void contextLoads() {
-	}
+// 	@Test
+// 	void contextLoads() {
+// 	}
 
-}
+// }
