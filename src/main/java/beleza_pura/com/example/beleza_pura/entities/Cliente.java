@@ -2,7 +2,6 @@ package beleza_pura.com.example.beleza_pura.entities;
 
 import lombok.*;
 
-import java.util.List;
 import java.util.UUID;
 
 @Getter

@@ -2,7 +2,7 @@ package beleza_pura.com.example.beleza_pura.repositories;
 
 import beleza_pura.com.example.beleza_pura.entities.Cliente;
 import beleza_pura.com.example.beleza_pura.repositories.jpa.ClienteJpaRepository;
-import beleza_pura.com.example.beleza_pura.repositories.jpa.jpaEntities.ClienteJpaEntity;
+import beleza_pura.com.example.beleza_pura.repositories.jpa.jpa_entities.ClienteJpaEntity;
 import org.springframework.stereotype.Component;
 
 import java.util.Optional;

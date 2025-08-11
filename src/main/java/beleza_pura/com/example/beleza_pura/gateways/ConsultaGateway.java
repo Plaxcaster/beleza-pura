@@ -25,9 +25,9 @@ public class ConsultaGateway {
     @Operation(summary = "Consultar dados de um estabelecimento a partir de um ID", tags = "Estabelecimento")
     @GetMapping("estabelecimento/{id_estabelecimento}")
     public ResponseEntity<RespostaConsultaEstabelecimento> estabelecimentoPorId(
-            @PathVariable String id_estabelecimento) {
+            @PathVariable String idEstabelecimento) {
         try {
-            return Optional.ofNullable(usecase.consultaEstabelecimentoPorId(id_estabelecimento))
+            return Optional.ofNullable(usecase.consultaEstabelecimentoPorId(idEstabelecimento))
                     .map(resultado -> ResponseEntity.ok()
                             .body(new RespostaConsultaEstabelecimento(resultado)))
                     .orElseGet(() -> ResponseEntity.notFound().build());
@@ -39,9 +39,9 @@ public class ConsultaGateway {
     @Operation(summary = "Consultar dados de um Profissional a partir de um ID", tags = "Profissional")
     @GetMapping("profissional/{id_profissional}")
     public ResponseEntity<RespostaConsultaProfissional> profissionalPorId(
-            @PathVariable String id_profissional) {
+            @PathVariable String idProfissional) {
         try {
-            return Optional.ofNullable(usecase.consultaProfissionalPorId(id_profissional))
+            return Optional.ofNullable(usecase.consultaProfissionalPorId(idProfissional))
                     .map(resultado -> ResponseEntity.ok()
                             .body(new RespostaConsultaProfissional(resultado)))
                     .orElseGet(() -> ResponseEntity.notFound().build());

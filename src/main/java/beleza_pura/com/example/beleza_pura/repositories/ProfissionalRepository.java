@@ -2,8 +2,8 @@ package beleza_pura.com.example.beleza_pura.repositories;
 
 import beleza_pura.com.example.beleza_pura.entities.Profissional;
 import beleza_pura.com.example.beleza_pura.repositories.jpa.ProfissionalJpaRepository;
-import beleza_pura.com.example.beleza_pura.repositories.jpa.jpaEntities.EspecialidadeJpaEntity;
-import beleza_pura.com.example.beleza_pura.repositories.jpa.jpaEntities.ProfissionalJpaEntity;
+import beleza_pura.com.example.beleza_pura.repositories.jpa.jpa_entities.EspecialidadeJpaEntity;
+import beleza_pura.com.example.beleza_pura.repositories.jpa.jpa_entities.ProfissionalJpaEntity;
 import org.springframework.stereotype.Component;
 
 import java.util.HashSet;

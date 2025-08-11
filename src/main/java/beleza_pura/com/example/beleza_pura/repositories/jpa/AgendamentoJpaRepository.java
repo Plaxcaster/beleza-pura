@@ -1,6 +1,6 @@
 package beleza_pura.com.example.beleza_pura.repositories.jpa;
 
-import beleza_pura.com.example.beleza_pura.repositories.jpa.jpaEntities.AgendamentoJpaEntity;
+import beleza_pura.com.example.beleza_pura.repositories.jpa.jpa_entities.AgendamentoJpaEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;

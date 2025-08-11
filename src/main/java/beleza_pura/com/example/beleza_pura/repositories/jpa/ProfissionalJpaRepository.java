@@ -1,6 +1,6 @@
 package beleza_pura.com.example.beleza_pura.repositories.jpa;
 
-import beleza_pura.com.example.beleza_pura.repositories.jpa.jpaEntities.ProfissionalJpaEntity;
+import beleza_pura.com.example.beleza_pura.repositories.jpa.jpa_entities.ProfissionalJpaEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Component;
 

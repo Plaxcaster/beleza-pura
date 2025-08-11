@@ -2,7 +2,7 @@ package beleza_pura.com.example.beleza_pura.repositories;
 
 import beleza_pura.com.example.beleza_pura.entities.Agendamento;
 import beleza_pura.com.example.beleza_pura.repositories.jpa.AgendamentoJpaRepository;
-import beleza_pura.com.example.beleza_pura.repositories.jpa.jpaEntities.AgendamentoJpaEntity;
+import beleza_pura.com.example.beleza_pura.repositories.jpa.jpa_entities.AgendamentoJpaEntity;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;

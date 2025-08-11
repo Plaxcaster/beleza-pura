@@ -2,7 +2,7 @@ package beleza_pura.com.example.beleza_pura.repositories;
 
 import beleza_pura.com.example.beleza_pura.entities.Estabelecimento;
 import beleza_pura.com.example.beleza_pura.repositories.jpa.EstabelecimentoJpaRepository;
-import beleza_pura.com.example.beleza_pura.repositories.jpa.jpaEntities.EstabelecimentoJpaEntity;
+import beleza_pura.com.example.beleza_pura.repositories.jpa.jpa_entities.EstabelecimentoJpaEntity;
 import org.springframework.stereotype.Component;
 
 import java.util.HashSet;

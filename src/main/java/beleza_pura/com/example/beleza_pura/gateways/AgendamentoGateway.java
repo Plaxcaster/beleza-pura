@@ -62,7 +62,7 @@ public class AgendamentoGateway {
             List<MarcarAgendamentoResposta> agendamentos = agendamentoUsecase
                     .listarAgendamentosPorCliente(clienteId).stream()
                     .map(MarcarAgendamentoResposta::new)
-                    .collect(Collectors.toList());
+                    .toList(); // Replaced collect(Collectors.toList()) with toList()
             return ResponseEntity.ok(agendamentos);
         } catch (Exception e) {
             return ResponseEntity.internalServerError().build();
