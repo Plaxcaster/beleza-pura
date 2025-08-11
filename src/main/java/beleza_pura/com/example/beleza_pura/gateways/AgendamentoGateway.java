@@ -68,4 +68,6 @@ public class AgendamentoGateway {
             return ResponseEntity.internalServerError().build();
         }
     }
+
+
 }
