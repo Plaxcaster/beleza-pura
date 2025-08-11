@@ -10,4 +10,7 @@ public class MarcarAgendamentoRequisicao {
     private UUID profissionalId;
     private UUID especialidadeId;
     private LocalDateTime dataHora;
+
+    public MarcarAgendamentoRequisicao(UUID clienteId, UUID profissionalId, UUID especialidadeId, LocalDateTime dataHora) {
+    }
 }

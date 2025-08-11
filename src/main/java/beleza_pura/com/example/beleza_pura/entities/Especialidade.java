@@ -12,4 +12,8 @@ import java.util.UUID;
 public class Especialidade {
     private UUID id;
     private String nome;
+
+    public Especialidade() {
+
+    }
 }
