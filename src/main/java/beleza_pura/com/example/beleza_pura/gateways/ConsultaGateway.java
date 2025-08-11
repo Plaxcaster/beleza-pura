@@ -1,11 +1,16 @@
 package beleza_pura.com.example.beleza_pura.gateways;
 
-import beleza_pura.com.example.beleza_pura.data.*;
+import beleza_pura.com.example.beleza_pura.data.RespostaConsultaAgendamento;
+import beleza_pura.com.example.beleza_pura.data.RespostaConsultaEstabelecimento;
+import beleza_pura.com.example.beleza_pura.data.RespostaConsultaProfissional;
 import beleza_pura.com.example.beleza_pura.entities.StatusAgendamento;
 import beleza_pura.com.example.beleza_pura.usecases.ConsultaUsecase;
 import io.swagger.v3.oas.annotations.Operation;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 import java.util.Optional;
@@ -23,7 +28,7 @@ public class ConsultaGateway {
     }
 
     @Operation(summary = "Consultar dados de um estabelecimento a partir de um ID", tags = "Estabelecimento")
-    @GetMapping("estabelecimento/{id_estabelecimento}")
+    @GetMapping("estabelecimento/{idEstabelecimento}")
     public ResponseEntity<RespostaConsultaEstabelecimento> estabelecimentoPorId(
             @PathVariable String idEstabelecimento) {
         try {
@@ -37,7 +42,7 @@ public class ConsultaGateway {
     }
 
     @Operation(summary = "Consultar dados de um Profissional a partir de um ID", tags = "Profissional")
-    @GetMapping("profissional/{id_profissional}")
+    @GetMapping("profissional/{idProfissional}")
     public ResponseEntity<RespostaConsultaProfissional> profissionalPorId(
             @PathVariable String idProfissional) {
         try {
@@ -49,6 +54,7 @@ public class ConsultaGateway {
             return ResponseEntity.notFound().build();
         }
     }
+
     @Operation(summary = "Consultar agendamentos por cliente", tags = "Agendamento")
     @GetMapping("/agendamentos/cliente/{clienteId}")
     public ResponseEntity<List<RespostaConsultaAgendamento>> agendamentosPorCliente(

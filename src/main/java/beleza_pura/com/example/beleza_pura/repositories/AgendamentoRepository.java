@@ -72,5 +72,6 @@ public class AgendamentoRepository {
         return repository.findByProfissionalIdAndStatus(profissionalId, status).stream()
                 .map(AgendamentoJpaEntity::toAgendamento)
                 .toList();
+
     }
 }

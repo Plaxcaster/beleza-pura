@@ -16,6 +16,7 @@ import java.util.UUID;
 @Component
 public class ConsultaUsecase {
 
+
     private final EstabelecimentoRepository estabelecimentoRepository;
     private final ProfissionalRepository profissionalRepository;
     private final AgendamentoRepository agendamentoRepository;
@@ -47,7 +48,6 @@ public class ConsultaUsecase {
             throw new IllegalArgumentException("ID informada não é válida", e);
         }
     }
-
     public List<Agendamento> consultarAgendamentosPorCliente(UUID clienteId) {
         return agendamentoRepository.listarPorCliente(clienteId);
     }
