@@ -1,6 +1,7 @@
 package beleza_pura.com.example.beleza_pura.repositories;
 
 import beleza_pura.com.example.beleza_pura.entities.Agendamento;
+import beleza_pura.com.example.beleza_pura.entities.StatusAgendamento;
 import beleza_pura.com.example.beleza_pura.repositories.jpa.AgendamentoJpaRepository;
 import beleza_pura.com.example.beleza_pura.repositories.jpa.jpa_entities.AgendamentoJpaEntity;
 import org.springframework.stereotype.Component;
@@ -55,4 +56,22 @@ public class AgendamentoRepository {
                 .toList();
     }
 
+    public List<Agendamento> listarPorStatus(StatusAgendamento status) {
+        return repository.findByStatus(status).stream()
+                .map(AgendamentoJpaEntity::toAgendamento)
+                .toList();
+    }
+
+    public List<Agendamento> listarPorClienteEStatus(UUID clienteId, StatusAgendamento status) {
+        return repository.findByClienteIdAndStatus(clienteId, status).stream()
+                .map(AgendamentoJpaEntity::toAgendamento)
+                .toList();
+    }
+
+    public List<Agendamento> listarPorProfissionalEStatus(UUID profissionalId, StatusAgendamento status) {
+        return repository.findByProfissionalIdAndStatus(profissionalId, status).stream()
+                .map(AgendamentoJpaEntity::toAgendamento)
+                .toList();
+
+    }
 }
