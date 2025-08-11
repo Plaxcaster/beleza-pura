@@ -28,7 +28,7 @@ public class ConsultaGateway {
     }
 
     @Operation(summary = "Consultar dados de um estabelecimento a partir de um ID", tags = "Estabelecimento")
-    @GetMapping("estabelecimento/{id_estabelecimento}")
+    @GetMapping("estabelecimento/{idEstabelecimento}")
     public ResponseEntity<RespostaConsultaEstabelecimento> estabelecimentoPorId(
             @PathVariable String idEstabelecimento) {
         try {
@@ -42,7 +42,7 @@ public class ConsultaGateway {
     }
 
     @Operation(summary = "Consultar dados de um Profissional a partir de um ID", tags = "Profissional")
-    @GetMapping("profissional/{id_profissional}")
+    @GetMapping("profissional/{idProfissional}")
     public ResponseEntity<RespostaConsultaProfissional> profissionalPorId(
             @PathVariable String idProfissional) {
         try {
