@@ -91,12 +91,11 @@ class AgendamentoUsecaseTest {
         profissional.setTarifa(new BigDecimal("50.00"));
 
         // Initialize Requisicao
-        requisicao = new MarcarAgendamentoRequisicao(
-                clienteId,
-                profissionalId,
-                especialidadeId,
-                dataHora
-        );
+        requisicao = new MarcarAgendamentoRequisicao();
+        requisicao.setClienteId(clienteId);
+        requisicao.setProfissionalId(profissionalId);
+        requisicao.setEspecialidadeId(especialidadeId);
+        requisicao.setDataHora(dataHora);
 
         // Initialize Agendamento
         agendamento = Agendamento.builder()
@@ -143,19 +142,18 @@ class AgendamentoUsecaseTest {
         when(especialidadeRepository.buscaPorId(eq(especialidadeId))).thenReturn(Optional.of(especialidade));
         when(agendamentoRepository.existeAgendamentoNoHorario(eq(profissionalId), eq(dataHora))).thenReturn(true);
 
-        assertThrows(IllegalArgumentException.class, () ->
+        assertThrows(IllegalStateException.class, () ->
                 agendamentoUsecase.marcarAgendamento(requisicao));
     }
 
     @Test
     void marcarAgendamento_ProfissionalOutsideWorkingHours() {
         LocalDateTime outsideHours = LocalDateTime.of(2023, 12, 15, 8, 0);
-        MarcarAgendamentoRequisicao req = new MarcarAgendamentoRequisicao(
-                clienteId,
-                profissionalId,
-                especialidadeId,
-                outsideHours
-        );
+        MarcarAgendamentoRequisicao req = new MarcarAgendamentoRequisicao();
+        requisicao.setClienteId(clienteId);
+        requisicao.setProfissionalId(profissionalId);
+        requisicao.setEspecialidadeId(especialidadeId);
+        requisicao.setDataHora(dataHora);
 
         when(clienteRepository.buscaPorId(eq(clienteId))).thenReturn(Optional.of(cliente));
         when(profissionalRepository.buscaPorId(eq(profissionalId))).thenReturn(Optional.of(profissional));
