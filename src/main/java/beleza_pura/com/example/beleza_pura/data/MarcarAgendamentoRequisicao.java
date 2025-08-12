@@ -9,6 +9,7 @@ public class MarcarAgendamentoRequisicao {
     private UUID clienteId;
     private UUID profissionalId;
     private UUID especialidadeId;
+    private UUID estabelecimentoId;
     private LocalDateTime dataHora;
 
 }

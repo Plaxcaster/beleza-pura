@@ -1,9 +1,7 @@
 package beleza_pura.com.example.beleza_pura.entities;
 
 import lombok.*;
-
 import java.time.LocalDateTime;
-
 
 @Getter
 @Builder
@@ -15,6 +13,7 @@ public class Agendamento {
     private Cliente cliente;
     private Profissional profissional;
     private Especialidade especialidade;
+    private Estabelecimento estabelecimento;  // Added field
     private LocalDateTime dataHora;
     private StatusAgendamento status;
 }

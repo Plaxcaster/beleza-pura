@@ -13,6 +13,7 @@ import java.time.LocalTime;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Entity
 @Table(name = "ESTABELECIMENTO")
@@ -48,6 +49,27 @@ public class EstabelecimentoJpaEntity {
         this.profissionais.forEach(profissional -> profissionaisEntity.add(profissional.toProfissionalEntidade()));
         HorarioAtendimento horario = new HorarioAtendimento(this.horarioInicio, this.horarioFim);
         return new Estabelecimento(this.id, this.nome, this.endereco, profissionaisEntity, horario);
+    }
+
+    public Estabelecimento toEstabelecimentoEntidade() {
+        // Convert ProfissionalJpaEntity set to Profissional set
+        Set<Profissional> profissionais = this.profissionais.stream()
+                .map(ProfissionalJpaEntity::toProfissionalEntidade)
+                .collect(Collectors.toSet());
+
+        // Create HorarioAtendimento from stored times
+        HorarioAtendimento horario = new HorarioAtendimento(
+                this.horarioInicio,
+                this.horarioFim
+        );
+
+        return Estabelecimento.builder()
+                .id(this.id)
+                .nome(this.nome)
+                .endereco(this.endereco)
+                .profissionais(profissionais)
+                .horarioAtendimento(horario)
+                .build();
     }
 
 }

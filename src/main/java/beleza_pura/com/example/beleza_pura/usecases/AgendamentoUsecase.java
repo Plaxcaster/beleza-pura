@@ -19,15 +19,18 @@ public class AgendamentoUsecase {
     private final ClienteRepository clienteRepository;
     private final ProfissionalRepository profissionalRepository;
     private final EspecialidadeRepository especialidadeRepository;
+    private final EstabelecimentoRepository estabelecimentoRepository;  // Added repository
 
     public AgendamentoUsecase(AgendamentoRepository agendamentoRepository,
                               ClienteRepository clienteRepository,
                               ProfissionalRepository profissionalRepository,
-                              EspecialidadeRepository especialidadeRepository) {
+                              EspecialidadeRepository especialidadeRepository,
+                              EstabelecimentoRepository estabelecimentoRepository) {  // Added parameter
         this.agendamentoRepository = agendamentoRepository;
         this.clienteRepository = clienteRepository;
         this.profissionalRepository = profissionalRepository;
         this.especialidadeRepository = especialidadeRepository;
+        this.estabelecimentoRepository = estabelecimentoRepository;  // Added initialization
     }
 
     public Agendamento marcarAgendamento(MarcarAgendamentoRequisicao requisicao) {
@@ -41,6 +44,9 @@ public class AgendamentoUsecase {
         Especialidade especialidade = especialidadeRepository.buscaPorId(requisicao.getEspecialidadeId())
                 .orElseThrow(() -> new IllegalArgumentException("Especialidade não encontrada"));
 
+        Estabelecimento estabelecimento = estabelecimentoRepository.buscaPorId(requisicao.getEstabelecimentoId())
+                .orElseThrow(() -> new IllegalArgumentException("Estabelecimento não encontrado"));
+
         // Check professional's availability
         if (!isProfissionalDisponivel(profissional, requisicao.getDataHora())) {
             throw new IllegalStateException("Profissional não disponível no horário solicitado");
@@ -51,6 +57,7 @@ public class AgendamentoUsecase {
                 .cliente(cliente)
                 .profissional(profissional)
                 .especialidade(especialidade)
+                .estabelecimento(estabelecimento)  // Added field
                 .dataHora(requisicao.getDataHora())
                 .status(StatusAgendamento.AGENDADO)
                 .build();

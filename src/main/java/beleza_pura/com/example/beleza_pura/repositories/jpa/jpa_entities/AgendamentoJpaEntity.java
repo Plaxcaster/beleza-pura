@@ -7,7 +7,6 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-
 import java.time.LocalDateTime;
 
 @Entity
@@ -33,6 +32,10 @@ public class AgendamentoJpaEntity {
     @JoinColumn(name = "especialidade_id")
     private EspecialidadeJpaEntity especialidade;
 
+    @ManyToOne
+    @JoinColumn(name = "estabelecimento_id")  // Added field
+    private EstabelecimentoJpaEntity estabelecimento;
+
     private LocalDateTime dataHora;
 
     @Enumerated(EnumType.STRING)
@@ -43,6 +46,7 @@ public class AgendamentoJpaEntity {
         this.cliente = new ClienteJpaEntity(agendamento.getCliente());
         this.profissional = new ProfissionalJpaEntity(agendamento.getProfissional());
         this.especialidade = new EspecialidadeJpaEntity(agendamento.getEspecialidade());
+        this.estabelecimento = new EstabelecimentoJpaEntity(agendamento.getEstabelecimento());  // Added
         this.dataHora = agendamento.getDataHora();
         this.status = agendamento.getStatus();
     }
@@ -53,6 +57,7 @@ public class AgendamentoJpaEntity {
                 .cliente(cliente.toClienteEntidade())
                 .profissional(profissional.toProfissionalEntidade())
                 .especialidade(especialidade.toEspecialidadeEntidade())
+                .estabelecimento(estabelecimento.toEstabelecimentoEntidade())  // Added
                 .dataHora(dataHora)
                 .status(status)
                 .build();
