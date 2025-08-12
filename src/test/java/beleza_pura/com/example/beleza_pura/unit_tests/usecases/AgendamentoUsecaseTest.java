@@ -1,10 +1,11 @@
-package beleza_pura.com.example.beleza_pura.usecases;
+package beleza_pura.com.example.beleza_pura.unit_tests.usecases;
 
 import beleza_pura.com.example.beleza_pura.data.MarcarAgendamentoRequisicao;
 import beleza_pura.com.example.beleza_pura.entities.*;
 import beleza_pura.com.example.beleza_pura.exceptions.AgendamentoOperationException;
 import beleza_pura.com.example.beleza_pura.exceptions.EntityNotFoundException;
 import beleza_pura.com.example.beleza_pura.repositories.*;
+import beleza_pura.com.example.beleza_pura.usecases.AgendamentoUsecase;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
