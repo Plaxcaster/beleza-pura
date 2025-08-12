@@ -10,7 +10,7 @@
     </parent>
     <groupId>beleza-pura.com.example</groupId>
     <artifactId>beleza-pura</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <version>1.0.0</version>
     <name>beleza-pura</name>
     <description>Project using clean architecture</description>
 
