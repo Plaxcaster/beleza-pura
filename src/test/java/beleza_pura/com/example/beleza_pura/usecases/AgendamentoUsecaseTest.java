@@ -94,10 +94,11 @@ class AgendamentoUsecaseTest {
         profissional = new Profissional(
                 "Profissional Teste",
                 List.of(especialidade),
-                horario
+                horario,
+                new BigDecimal("50.00")
         );
         profissional.setId(profissionalId);
-        profissional.setTarifa(new BigDecimal("50.00"));
+
 
         // Initialize Requisicao
         requisicao = new MarcarAgendamentoRequisicao();
