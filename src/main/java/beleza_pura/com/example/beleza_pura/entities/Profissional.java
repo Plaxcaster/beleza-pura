@@ -20,10 +20,12 @@ public class Profissional {
     private BigDecimal tarifa;
 
 
-    public Profissional(String nome, List<Especialidade> especialidades, HorarioAtendimento horario) {
+    public Profissional(String nome, List<Especialidade> especialidades, HorarioAtendimento horario, BigDecimal tarifa) {
         this.id = UUID.randomUUID();
         this.especialidades = especialidades;
         this.nome = nome;
         this.horario = horario;
+        this.tarifa = tarifa;
     }
+
 }

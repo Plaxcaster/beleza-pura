@@ -35,8 +35,13 @@ public class ProfissionalJpaEntity {
 
         especialidades.forEach(especialidade -> especialidadesEntidade.add(especialidade.toEspecialidadeEntidade()));
 
-        return Profissional.builder().id(id).nome(nome).horario(horarioEntidade)
-                .especialidades(especialidadesEntidade).build();
+        return Profissional.builder()
+                .id(id)
+                .nome(nome)
+                .horario(horarioEntidade)
+                .especialidades(especialidadesEntidade)
+                .tarifa(tarifa) // Add this line
+                .build();
     }
 
     public ProfissionalJpaEntity(Profissional profissional) {

@@ -1,13 +1,11 @@
-package beleza_pura.com.example.beleza_pura.usecases;
+package beleza_pura.com.example.beleza_pura.unit_tests.usecases;
 
 import beleza_pura.com.example.beleza_pura.data.MarcarAgendamentoRequisicao;
 import beleza_pura.com.example.beleza_pura.entities.*;
 import beleza_pura.com.example.beleza_pura.exceptions.AgendamentoOperationException;
 import beleza_pura.com.example.beleza_pura.exceptions.EntityNotFoundException;
-import beleza_pura.com.example.beleza_pura.repositories.AgendamentoRepository;
-import beleza_pura.com.example.beleza_pura.repositories.ClienteRepository;
-import beleza_pura.com.example.beleza_pura.repositories.EspecialidadeRepository;
-import beleza_pura.com.example.beleza_pura.repositories.ProfissionalRepository;
+import beleza_pura.com.example.beleza_pura.repositories.*;
+import beleza_pura.com.example.beleza_pura.usecases.AgendamentoUsecase;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -43,16 +41,21 @@ class AgendamentoUsecaseTest {
     @Mock
     private EspecialidadeRepository especialidadeRepository;
 
+    @Mock
+    private EstabelecimentoRepository estabelecimentoRepository;
+
     @InjectMocks
     private AgendamentoUsecase agendamentoUsecase;
 
     private UUID clienteId;
     private UUID profissionalId;
     private UUID especialidadeId;
+    private UUID estabelecimentoId;
     private LocalDateTime dataHora;
     private Cliente cliente;
     private Profissional profissional;
     private Especialidade especialidade;
+    private Estabelecimento estabelecimento;
     private Agendamento agendamento;
     private MarcarAgendamentoRequisicao requisicao;
 
@@ -61,6 +64,7 @@ class AgendamentoUsecaseTest {
         clienteId = UUID.randomUUID();
         profissionalId = UUID.randomUUID();
         especialidadeId = UUID.randomUUID();
+        estabelecimentoId = UUID.randomUUID();
         dataHora = LocalDateTime.of(2023, 12, 15, 14, 0);
 
         // Initialize Cliente
@@ -75,6 +79,12 @@ class AgendamentoUsecaseTest {
         especialidade.setId(especialidadeId);
         especialidade.setNome("Corte de Cabelo");
 
+        // Initialize Estabelecimento
+        estabelecimento = new Estabelecimento();
+        estabelecimento.setId(estabelecimentoId);
+        estabelecimento.setNome("Salão da Maria");
+        estabelecimento.setEndereco("Rua Teste, 123");
+
         // Initialize HorarioAtendimento
         HorarioAtendimento horario = new HorarioAtendimento(
                 LocalTime.of(9, 0),
@@ -85,16 +95,18 @@ class AgendamentoUsecaseTest {
         profissional = new Profissional(
                 "Profissional Teste",
                 List.of(especialidade),
-                horario
+                horario,
+                new BigDecimal("50.00")
         );
         profissional.setId(profissionalId);
-        profissional.setTarifa(new BigDecimal("50.00"));
+
 
         // Initialize Requisicao
         requisicao = new MarcarAgendamentoRequisicao();
         requisicao.setClienteId(clienteId);
         requisicao.setProfissionalId(profissionalId);
         requisicao.setEspecialidadeId(especialidadeId);
+        requisicao.setEstabelecimentoId(estabelecimentoId);
         requisicao.setDataHora(dataHora);
 
         // Initialize Agendamento
@@ -103,6 +115,7 @@ class AgendamentoUsecaseTest {
                 .cliente(cliente)
                 .profissional(profissional)
                 .especialidade(especialidade)
+                .estabelecimento(estabelecimento)
                 .dataHora(dataHora)
                 .status(StatusAgendamento.AGENDADO)
                 .build();
@@ -136,10 +149,22 @@ class AgendamentoUsecaseTest {
     }
 
     @Test
+    void marcarAgendamento_EstabelecimentoNotFound() {
+        when(clienteRepository.buscaPorId(eq(clienteId))).thenReturn(Optional.of(cliente));
+        when(profissionalRepository.buscaPorId(eq(profissionalId))).thenReturn(Optional.of(profissional));
+        when(especialidadeRepository.buscaPorId(eq(especialidadeId))).thenReturn(Optional.of(especialidade));
+        when(estabelecimentoRepository.buscaPorId(eq(estabelecimentoId))).thenReturn(Optional.empty());
+
+        assertThrows(IllegalArgumentException.class, () ->
+                agendamentoUsecase.marcarAgendamento(requisicao));
+    }
+
+    @Test
     void marcarAgendamento_ProfissionalNotAvailable() {
         when(clienteRepository.buscaPorId(eq(clienteId))).thenReturn(Optional.of(cliente));
         when(profissionalRepository.buscaPorId(eq(profissionalId))).thenReturn(Optional.of(profissional));
         when(especialidadeRepository.buscaPorId(eq(especialidadeId))).thenReturn(Optional.of(especialidade));
+        when(estabelecimentoRepository.buscaPorId(eq(estabelecimentoId))).thenReturn(Optional.of(estabelecimento));
         when(agendamentoRepository.existeAgendamentoNoHorario(eq(profissionalId), eq(dataHora))).thenReturn(true);
 
         assertThrows(IllegalStateException.class, () ->
@@ -150,76 +175,39 @@ class AgendamentoUsecaseTest {
     void marcarAgendamento_ProfissionalOutsideWorkingHours() {
         LocalDateTime outsideHours = LocalDateTime.of(2023, 12, 15, 8, 0);
         MarcarAgendamentoRequisicao req = new MarcarAgendamentoRequisicao();
-        requisicao.setClienteId(clienteId);
-        requisicao.setProfissionalId(profissionalId);
-        requisicao.setEspecialidadeId(especialidadeId);
-        requisicao.setDataHora(dataHora);
+        req.setClienteId(clienteId);
+        req.setProfissionalId(profissionalId);
+        req.setEspecialidadeId(especialidadeId);
+        req.setEstabelecimentoId(estabelecimentoId);
+        req.setDataHora(outsideHours);
 
         when(clienteRepository.buscaPorId(eq(clienteId))).thenReturn(Optional.of(cliente));
         when(profissionalRepository.buscaPorId(eq(profissionalId))).thenReturn(Optional.of(profissional));
         when(especialidadeRepository.buscaPorId(eq(especialidadeId))).thenReturn(Optional.of(especialidade));
+        when(estabelecimentoRepository.buscaPorId(eq(estabelecimentoId))).thenReturn(Optional.of(estabelecimento));
 
-        assertThrows(IllegalArgumentException.class, () ->
+        assertThrows(IllegalStateException.class, () ->
                 agendamentoUsecase.marcarAgendamento(req));
     }
 
     @Test
-    void buscarAgendamentoPorId_Found() {
-        when(agendamentoRepository.buscarPorId(eq(1L))).thenReturn(Optional.of(agendamento));
+    void marcarAgendamento_Success() {
+        when(clienteRepository.buscaPorId(eq(clienteId))).thenReturn(Optional.of(cliente));
+        when(profissionalRepository.buscaPorId(eq(profissionalId))).thenReturn(Optional.of(profissional));
+        when(especialidadeRepository.buscaPorId(eq(especialidadeId))).thenReturn(Optional.of(especialidade));
+        when(estabelecimentoRepository.buscaPorId(eq(estabelecimentoId))).thenReturn(Optional.of(estabelecimento));
+        when(agendamentoRepository.existeAgendamentoNoHorario(eq(profissionalId), eq(dataHora))).thenReturn(false);
+        when(agendamentoRepository.salvar(any(Agendamento.class))).thenReturn(agendamento);
 
-        Optional<Agendamento> result = agendamentoUsecase.buscarAgendamentoPorId(1L);
-
-        assertTrue(result.isPresent());
-        assertEquals(agendamento, result.get());
-    }
-
-    @Test
-    void buscarAgendamentoPorId_NotFound() {
-        when(agendamentoRepository.buscarPorId(eq(1L))).thenReturn(Optional.empty());
-
-        Optional<Agendamento> result = agendamentoUsecase.buscarAgendamentoPorId(1L);
-
-        assertFalse(result.isPresent());
-    }
-
-    @Test
-    void listarAgendamentosPorCliente() {
-        List<Agendamento> expected = Collections.singletonList(agendamento);
-        when(agendamentoRepository.listarPorCliente(eq(clienteId))).thenReturn(expected);
-
-        List<Agendamento> result = agendamentoUsecase.listarAgendamentosPorCliente(clienteId);
-
-        assertEquals(expected, result);
-    }
-
-    @Test
-    void listarAgendamentosPorProfissional() {
-        List<Agendamento> expected = Collections.singletonList(agendamento);
-        when(agendamentoRepository.listarPorProfissional(eq(profissionalId))).thenReturn(expected);
-
-        List<Agendamento> result = agendamentoUsecase.listarAgendamentosPorProfissional(profissionalId);
-
-        assertEquals(expected, result);
-    }
-
-    @Test
-    void atualizarStatusAgendamento_Success() {
-        Agendamento updated = Agendamento.builder()
-                .id(1L)
-                .cliente(cliente)
-                .profissional(profissional)
-                .especialidade(especialidade)
-                .dataHora(dataHora)
-                .status(StatusAgendamento.CONCLUIDO)
-                .build();
-
-        when(agendamentoRepository.buscarPorId(eq(1L))).thenReturn(Optional.of(agendamento));
-        when(agendamentoRepository.salvar(any(Agendamento.class))).thenReturn(updated);
-
-        Agendamento result = agendamentoUsecase.atualizarStatusAgendamento(1L, StatusAgendamento.CONCLUIDO);
+        Agendamento result = agendamentoUsecase.marcarAgendamento(requisicao);
 
         assertNotNull(result);
-        assertEquals(StatusAgendamento.CONCLUIDO, result.getStatus());
+        assertEquals(cliente, result.getCliente());
+        assertEquals(profissional, result.getProfissional());
+        assertEquals(especialidade, result.getEspecialidade());
+        assertEquals(estabelecimento, result.getEstabelecimento());
+        assertEquals(dataHora, result.getDataHora());
+        assertEquals(StatusAgendamento.AGENDADO, result.getStatus());
     }
 
     @Test

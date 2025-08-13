@@ -10,7 +10,7 @@
     </parent>
     <groupId>beleza-pura.com.example</groupId>
     <artifactId>beleza-pura</artifactId>
-    <version>1.0.0</version>
+    <version>1.0.1</version>
     <name>beleza-pura</name>
     <description>Project using clean architecture</description>
 
@@ -48,6 +48,17 @@
             <groupId>org.springdoc</groupId>
             <artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
             <version>2.5.0</version>
+        </dependency>
+        <dependency>
+            <groupId>io.rest-assured</groupId>
+            <artifactId>rest-assured</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>io.qameta.allure</groupId>
+            <artifactId>allure-rest-assured</artifactId>
+            <version>2.23.0</version>
+            <scope>test</scope>
         </dependency>
 
         <!-- Database -->

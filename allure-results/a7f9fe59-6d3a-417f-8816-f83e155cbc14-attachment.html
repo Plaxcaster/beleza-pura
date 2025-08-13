@@ -1,0 +1,30 @@
+<div>POST to http://localhost:55505/api/cadastro/estabelecimentos/vincular-profissionais</div>
+
+<h4>Body</h4>
+<div>
+    <pre class="preformated-text">
+{
+    &quot;idEstabelecimento&quot;: &quot;770e8400-e29b-41d4-a716-446655440002&quot;,
+    &quot;listaProfissionais&quot;: [
+        &quot;660e8400-e29b-41d4-a716-446655440001&quot;
+    ]
+}    </pre>
+</div>
+
+<h4>Headers</h4>
+<div>
+        <div>Accept: */*</div>
+        <div>Content-Type: application/json</div>
+</div>
+
+
+
+<h4>Curl</h4>
+<div>
+curl -v -X POST &#39;http://localhost:55505/api/cadastro/estabelecimentos/vincular-profissionais&#39; -H &#39;Accept: */*&#39; -H &#39;Content-Type: application/json&#39; -d &#39;{
+    &quot;idEstabelecimento&quot;: &quot;770e8400-e29b-41d4-a716-446655440002&quot;,
+    &quot;listaProfissionais&quot;: [
+        &quot;660e8400-e29b-41d4-a716-446655440001&quot;
+    ]
+}&#39;
+</div>
