@@ -1,6 +1,7 @@
 # Sistema Beleza Pura
-Sistema baseado em arquitetura de microserviços utitilizando Clean Architecture.
-##Para rodar a aplicação:
+Sistema baseado em arquitetura de microserviços utitilizando Clean Architecture.  
+
+## Para rodar a aplicação:
 ```
 mvn clean install
 mvn spring-boot:run
